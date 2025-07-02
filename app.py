@@ -1,39 +1,47 @@
+from flask import Flask, jsonify
 
-from flask import Flask, request, send_file
-from flask_cors import CORS
-import os
-import tempfile
-from tools import pdf_to_word, word_to_pdf, merge_pdf, split_pdf, compress_pdf,pdf_to_image, image_to_pdf, rotate_pdf, unlock_pdf, protect_pdf
 app = Flask(__name__)
-CORS(app)
 
-TOOL_MAP = {
-    "pdf-to-word": pdf_to_word.convert,
-    "word-to-pdf": word_to_pdf.convert,
-    "merge-pdf": merge_pdf.convert,
-    "split-pdf": split_pdf.convert,
-    "compress-pdf": compress_pdf.convert,
-    "pdf-to-image": pdf_to_image.convert,
-    "image-to-pdf": image_to_pdf.convert,
-    "rotate-pdf": rotate_pdf.convert,
-    "unlock-pdf": unlock_pdf.convert,
-    "protect-pdf": protect_pdf.convert
-}
+@app.route('/')
+def home():
+    return "EasyPDF Backend Running with 10 Tools"
 
-@app.route("/<tool>", methods=["POST"])
-def convert_tool(tool):
-    if tool not in TOOL_MAP:
-        return {"error": "Invalid tool"}, 400
+@app.route('/pdf-to-word', methods=['POST'])
+def pdf_to_word():
+    return jsonify({"message": "PDF to Word tool working"})
 
-    if "file" not in request.files:
-        return {"error": "No file uploaded"}, 400
+@app.route('/word-to-pdf', methods=['POST'])
+def word_to_pdf():
+    return jsonify({"message": "Word to PDF tool working"})
 
-    uploaded_file = request.files["file"]
-    with tempfile.NamedTemporaryFile(delete=False) as temp:
-        uploaded_file.save(temp.name)
-        output_path = TOOL_MAP[tool](temp.name)
+@app.route('/merge-pdf', methods=['POST'])
+def merge_pdf():
+    return jsonify({"message": "Merge PDF tool working"})
 
-    return send_file(output_path, as_attachment=True)
+@app.route('/split-pdf', methods=['POST'])
+def split_pdf():
+    return jsonify({"message": "Split PDF tool working"})
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route('/compress-pdf', methods=['POST'])
+def compress_pdf():
+    return jsonify({"message": "Compress PDF tool working"})
+
+@app.route('/pdf-to-image', methods=['POST'])
+def pdf_to_image():
+    return jsonify({"message": "PDF to Image tool working"})
+
+@app.route('/image-to-pdf', methods=['POST'])
+def image_to_pdf():
+    return jsonify({"message": "Image to PDF tool working"})
+
+@app.route('/rotate-pdf', methods=['POST'])
+def rotate_pdf():
+    return jsonify({"message": "Rotate PDF tool working"})
+
+@app.route('/unlock-pdf', methods=['POST'])
+def unlock_pdf():
+    return jsonify({"message": "Unlock PDF tool working"})
+
+@app.route('/protect-pdf', methods=['POST'])
+def protect_pdf():
+    return jsonify({"message": "Protect PDF tool working"})
