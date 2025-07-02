@@ -1,6 +1,13 @@
 from flask import Flask, jsonify
 
+from flask import request, send_file
+from flask_cors import CORS
+import os
+import tempfile
+
+from tools import pdf_to_word, word_to_pdf, merge_pdf, split_pdf, compress_pdf,pdf_to_image, image_to_pdf, rotate_pdf, unlock_pdf, protect_pdf
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def home():
